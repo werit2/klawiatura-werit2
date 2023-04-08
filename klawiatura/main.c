@@ -58,6 +58,9 @@ int main(void)
 	
 	while (1) {
 		key_pressed =0;
+		no_key_pressed[0] = 0;
+		no_key_pressed[1] = 0;
+		no_key_pressed[2] = 0;
 		ROW0_set_level(0);
 		ROW1_set_level(1);
 		ROW2_set_level(1);
@@ -85,23 +88,27 @@ int main(void)
 		else if(COLUMN2_get_level() == 0)  key_pressed = 9;
 		else no_key_pressed[2] = 1;
 		
-		//if (no_key_pressed[0] && no_key_pressed[1] && no_key_pressed[2]) //zawsze wykonuje ta petle -> dlaczego ten warunek jest zawsze prawdziwy?
-		//{
-			//PORTB |= 0b00100000;
-			//continue;
-		//} else {
-			//btn_debounce();
-			//if (press == PRESS_VALID)
-			//{
+		if (no_key_pressed[0] == 1  && no_key_pressed[1] && no_key_pressed[2] ) //zawsze wykonuje ta petle -> dlaczego ten warunek jest zawsze prawdziwy?
+		{
+			PORTB |= 0b00100000;
+			continue;
+		} else {
+		
+		
+			ROW0_set_level(0);
+			ROW1_set_level(0);
+			ROW2_set_level(0);
+			_delay_ms(1);
+			btn_debounce();
+			if (press == PRESS_VALID)
+			{
 				twinkle(key_pressed);
 				//_delay_ms(500);
-			//}
-		//}
-		//PORTB &= 0b11011111;
+			}
+		}
+		PORTB &= 0b11011111;
 		
-		/* PORTB |= 0b00100000; }
-		else PORTB &= 0b11011111;
-		*/
+		
 	}
 }
 
@@ -175,7 +182,7 @@ void btn_debounce()
 	
 	for (uint8_t i = 0; i < 10; i++) {
 		/* If no button is pressed */
-		if (COLUMN0_get_level()  & COLUMN1_get_level() & COLUMN2_get_level() ) { //zawsze wykonuje ta petle -> dlaczego ten warunek jest zawsze prawdziwy?
+		if ((COLUMN0_get_level() == 1) && (COLUMN1_get_level() == 1) && (COLUMN2_get_level() == 1) ) {
 			//three high levels mean no button is being pressed
 			//GPIOR0 &= ~PRESS_VALID;
 			press = 0x00;
