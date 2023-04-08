@@ -24,7 +24,6 @@ void twinkle(uint8_t number);
 
 
 
-
 int main(void)
 {
 	
@@ -48,7 +47,10 @@ int main(void)
 	
 	COLUMN0_set_dir(PORT_DIR_IN);
 	COLUMN0_set_level(1);
-	//COLUMN1_set_pull_mode(PORT_PULL_UP);
+	
+	COLUMN2_set_dir(PORT_DIR_IN);
+	COLUMN2_set_level(1);
+	//COLUMN1_set_pull_mode(PORT_PULL_UP); = COLUMN1_set_level(1); //robi to samo co powy¿ej
 	
 	
 	while (1) {
@@ -56,31 +58,38 @@ int main(void)
 		ROW1_set_level(1);
 		ROW2_set_level(1);
 		_delay_ms(1);
-		if(COLUMN0_get_level() == 0 && COLUMN1_get_level() == 0)  PORTB |= 0b00010000;
-		else  PORTB &= 0b11101111;
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00010000; //on //port 12
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11101111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00010000; //on
+		else PORTB &= 0b11101111; //off
 		//_delay_ms(200);
 		ROW0_set_level(1);
 		ROW1_set_level(0);
 		ROW2_set_level(1);
 		_delay_ms(1);
-		if(COLUMN1_get_level() == 0 && COLUMN0_get_level() == 0 ) { PORTB |= 0b00100000; }
-		else PORTB &= 0b11011111;
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00100000; //on //port 13
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11011111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00100000; //on
+		else PORTB &= 0b11011111; //off
 		_delay_ms(200);
 		ROW0_set_level(1);
 		ROW1_set_level(1);
 		ROW2_set_level(0);
 		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00001000; //on //port 11
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11110111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00001000; //on
+		else PORTB &= 0b11110111; //off
+		
+		/*
+		if(COLUMN1_get_level() == 0 && COLUMN0_get_level() == 0 ) { PORTB |= 0b00100000; }
+		else PORTB &= 0b11011111;
+		
 		if(COLUMN1_get_level() == 0 && COLUMN0_get_level() == 0 ) { PORTB |= 0b00001000; }
 		else PORTB &= 0b11110111;
-		//_delay_ms(200);
 		
-		//if(COLUMN1_get_level() == 0) PORTB |= 0b00010000;
-		//else PORTB &= 0b11101111;
-		
-		//_delay_ms(1000);
-		
+		*/
 	}
-	
 }
 
 void row_output_column_input()
