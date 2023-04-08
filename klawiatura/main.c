@@ -30,32 +30,63 @@ int main(void)
 	
 	
 	/* Initializes MCU, drivers and middleware */
-	atmel_start_init();
+	//atmel_start_init();
 	DDRB |= 0b00111100; //(1 << PORTB5);
-
+	
+	
+	ROW0_set_dir(PORT_DIR_OUT);
+	ROW0_set_level(0);
+	
+	ROW1_set_dir(PORT_DIR_OUT);
+	ROW1_set_level(0);
+	
+	ROW2_set_dir(PORT_DIR_OUT);
+	ROW2_set_level(0);
+	
+	COLUMN1_set_dir(PORT_DIR_IN);
+	COLUMN1_set_level(1);
+	
+	COLUMN0_set_dir(PORT_DIR_IN);
+	COLUMN0_set_level(1);
+	//COLUMN1_set_pull_mode(PORT_PULL_UP);
+	
+	
 	while (1) {
-		/* Sleep until key press wakes up the CPU */
-		//sleep_mode();
-		/* PRESS_VALID flag in GPIOR0 is high if a valid press is detected */
+		ROW0_set_level(0);
+		ROW1_set_level(1);
+		ROW2_set_level(1);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00010000; //on //port 12
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11101111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00010000; //on
+		else PORTB &= 0b11101111; //off
+		//_delay_ms(200);
+		ROW0_set_level(1);
+		ROW1_set_level(0);
+		ROW2_set_level(1);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00100000; //on //port 13
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11011111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00100000; //on
+		else PORTB &= 0b11011111; //off
+		_delay_ms(200);
+		ROW0_set_level(1);
+		ROW1_set_level(1);
+		ROW2_set_level(0);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00001000; //on //port 11
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11110111; //off
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00001000; //on
+		else PORTB &= 0b11110111; //off
 		
-		btn_debounce();
-		_delay_ms(20);
-
-		/* If the key press was valid */
-		if ((GPIOR0 & PRESS_VALID) == PRESS_VALID) {
-			scan_keys();
-			twinkle(key_pressed);
-			/* Wait for all buttons to be released */
-			while ((GPIOR0 & PRESS_VALID) == PRESS_VALID) { 
-				 
-				btn_debounce();
-				_delay_ms(20);
-			}
-		}
-		//_delay_ms(20);
-		twinkle(1);
-		PORTB &= ~(1 << PORTC4);
-		_delay_ms(3000);
+		/*
+		if(COLUMN1_get_level() == 0 && COLUMN0_get_level() == 0 ) { PORTB |= 0b00100000; }
+		else PORTB &= 0b11011111;
+		
+		if(COLUMN1_get_level() == 0 && COLUMN0_get_level() == 0 ) { PORTB |= 0b00001000; }
+		else PORTB &= 0b11110111;
+		
+		*/
 	}
 	
 }
@@ -129,7 +160,7 @@ void btn_debounce()
 	
 	for (uint8_t i = 0; i < 10; i++) {
 		/* If no button is pressed */
-		if (COLUMN0_get_level() == 1 && COLUMN1_get_level() == 1 && COLUMN2_get_level() == 1 ) {
+		if (COLUMN0_get_level() >= 1 && COLUMN1_get_level() >= 1 && COLUMN2_get_level() >= 1 ) {
 			//three high levels mean no button is being pressed
 			GPIOR0 &= ~PRESS_VALID;
 			PORTB |= (1 << PORTC4);

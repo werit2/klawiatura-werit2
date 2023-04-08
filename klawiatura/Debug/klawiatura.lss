@@ -3,31 +3,29 @@ klawiatura.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000392  2**0
+  0 .data         00000000  00800100  00800100  0000026a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000031e  00000000  00000000  00000074  2**1
+  1 .text         00000216  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000001  00800100  00800100  00000392  2**0
-                  ALLOC
-  3 .comment      00000030  00000000  00000000  00000392  2**0
+  2 .comment      00000030  00000000  00000000  0000026a  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000003c4  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000029c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000088  00000000  00000000  00000404  2**0
+  4 .debug_aranges 00000048  00000000  00000000  000002dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001374  00000000  00000000  0000048c  2**0
+  5 .debug_info   000010ca  00000000  00000000  00000324  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000008f4  00000000  00000000  00001800  2**0
+  6 .debug_abbrev 00000754  00000000  00000000  000013ee  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000006da  00000000  00000000  000020f4  2**0
+  7 .debug_line   000006ea  00000000  00000000  00001b42  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000bc  00000000  00000000  000027d0  2**2
+  8 .debug_frame  00000074  00000000  00000000  0000222c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000623  00000000  00000000  0000288c  2**0
+  9 .debug_str    00000540  00000000  00000000  000022a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000004f7  00000000  00000000  00002eaf  2**0
+ 10 .debug_loc    00000581  00000000  00000000  000027e0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000058  00000000  00000000  000033a6  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  00002d61  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -104,785 +102,431 @@ Disassembly of section .text:
   7c:	1d 92       	st	X+, r1
 
 0000007e <.do_clear_bss_start>:
-  7e:	a1 30       	cpi	r26, 0x01	; 1
+  7e:	a0 30       	cpi	r26, 0x00	; 0
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
-  84:	1a d1       	rcall	.+564    	; 0x2ba <main>
-  86:	49 c1       	rjmp	.+658    	; 0x31a <_exit>
+  84:	02 d0       	rcall	.+4      	; 0x8a <main>
+  86:	c5 c0       	rjmp	.+394    	; 0x212 <_exit>
 
 00000088 <__bad_interrupt>:
   88:	bb cf       	rjmp	.-138    	; 0x0 <__vectors>
 
-0000008a <atmel_start_init>:
-/**
- * Initializes MCU, drivers and middleware in the project
- **/
-void atmel_start_init(void)
+0000008a <main>:
 {
-	system_init();
-  8a:	01 c0       	rjmp	.+2      	; 0x8e <system_init>
-  8c:	08 95       	ret
-
-0000008e <system_init>:
-{
-	//PORTC_set_pin_level(4, level);
-	if (level) {
-		PORTC |= (1 << PORTC4);
-	} else {
-		PORTC &= ~(1 << PORTC4);
-  8e:	88 b1       	in	r24, 0x08	; 8
-  90:	8f 7e       	andi	r24, 0xEF	; 239
-  92:	88 b9       	out	0x08, r24	; 8
- */
-static inline void ROW2_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(4, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC4);
-  94:	87 b1       	in	r24, 0x07	; 7
-  96:	80 61       	ori	r24, 0x10	; 16
-  98:	87 b9       	out	0x07, r24	; 7
- */
-static inline void ROW2_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(4, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC4);
-  9a:	88 b1       	in	r24, 0x08	; 8
-  9c:	80 61       	ori	r24, 0x10	; 16
-  9e:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_level(1, level);
-	if (level) {
-		PORTC |= (1 << PORTC1);
-	} else {
-		PORTC &= ~(1 << PORTC1);
-  a0:	88 b1       	in	r24, 0x08	; 8
-  a2:	8d 7f       	andi	r24, 0xFD	; 253
-  a4:	88 b9       	out	0x08, r24	; 8
+	
+	
+	/* Initializes MCU, drivers and middleware */
+	//atmel_start_init();
+	DDRB |= 0b00111100; //(1 << PORTB5);
+  8a:	84 b1       	in	r24, 0x04	; 4
+  8c:	8c 63       	ori	r24, 0x3C	; 60
+  8e:	84 b9       	out	0x04, r24	; 4
  */
 static inline void ROW0_set_dir(const enum port_dir dir)
 {
 	//PORTC_set_pin_dir(1, dir);
 	if (dir == PORT_DIR_OUT) {
 		DDRC |= (1 << PORTC1);
-  a6:	87 b1       	in	r24, 0x07	; 7
-  a8:	82 60       	ori	r24, 0x02	; 2
-  aa:	87 b9       	out	0x07, r24	; 7
- */
-static inline void ROW0_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(1, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC1);
-  ac:	88 b1       	in	r24, 0x08	; 8
-  ae:	82 60       	ori	r24, 0x02	; 2
-  b0:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_level(5, level);
-	if (level) {
-		PORTC |= (1 << PORTC5);
-	} else {
-		PORTC &= ~(1 << PORTC5);
-  b2:	88 b1       	in	r24, 0x08	; 8
-  b4:	8f 7d       	andi	r24, 0xDF	; 223
-  b6:	88 b9       	out	0x08, r24	; 8
- */
-static inline void ROW1_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(5, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC5);
-  b8:	87 b1       	in	r24, 0x07	; 7
-  ba:	80 62       	ori	r24, 0x20	; 32
-  bc:	87 b9       	out	0x07, r24	; 7
- */
-static inline void ROW1_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(5, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC5);
-  be:	88 b1       	in	r24, 0x08	; 8
-  c0:	80 62       	ori	r24, 0x20	; 32
-  c2:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_level(0, level);
-	if (level) {
-		PORTC |= (1 << PORTC0);
-	} else {
-		PORTC &= ~(1 << PORTC0);
-  c4:	88 b1       	in	r24, 0x08	; 8
-  c6:	8e 7f       	andi	r24, 0xFE	; 254
-  c8:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(0, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC0);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC0);
-  ca:	87 b1       	in	r24, 0x07	; 7
-  cc:	8e 7f       	andi	r24, 0xFE	; 254
-  ce:	87 b9       	out	0x07, r24	; 7
- */
-static inline void COLUMN1_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(0, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC0);
-  d0:	88 b1       	in	r24, 0x08	; 8
-  d2:	81 60       	ori	r24, 0x01	; 1
-  d4:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_level(3, level);
-	if (level) {
-		PORTC |= (1 << PORTC3);
-	} else {
-		PORTC &= ~(1 << PORTC3);
-  d6:	88 b1       	in	r24, 0x08	; 8
-  d8:	87 7f       	andi	r24, 0xF7	; 247
-  da:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(3, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC3);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC3);
-  dc:	87 b1       	in	r24, 0x07	; 7
-  de:	87 7f       	andi	r24, 0xF7	; 247
-  e0:	87 b9       	out	0x07, r24	; 7
- */
-static inline void COLUMN2_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(3, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC3);
-  e2:	88 b1       	in	r24, 0x08	; 8
-  e4:	88 60       	ori	r24, 0x08	; 8
-  e6:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_level(2, level);
-	if (level) {
-		PORTC |= (1 << PORTC2);
-	} else {
-		PORTC &= ~(1 << PORTC2);
-  e8:	88 b1       	in	r24, 0x08	; 8
-  ea:	8b 7f       	andi	r24, 0xFB	; 251
-  ec:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(2, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC2);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC2);
-  ee:	87 b1       	in	r24, 0x07	; 7
-  f0:	8b 7f       	andi	r24, 0xFB	; 251
-  f2:	87 b9       	out	0x07, r24	; 7
- */
-static inline void COLUMN0_set_pull_mode(const enum port_pull_mode pull_mode)
-{
-	//PORTC_set_pin_pull_mode(2, pull_mode);
-	if (pull_mode == PORT_PULL_UP) {
-		PORTC |= (1 << PORTC2);
-  f4:	88 b1       	in	r24, 0x08	; 8
-  f6:	84 60       	ori	r24, 0x04	; 4
-  f8:	88 b9       	out	0x08, r24	; 8
-  fa:	08 95       	ret
-
-000000fc <row_output_column_input>:
- */
-static inline void ROW0_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(1, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC1);
-  fc:	87 b1       	in	r24, 0x07	; 7
-  fe:	82 60       	ori	r24, 0x02	; 2
- 100:	87 b9       	out	0x07, r24	; 7
+  90:	87 b1       	in	r24, 0x07	; 7
+  92:	82 60       	ori	r24, 0x02	; 2
+  94:	87 b9       	out	0x07, r24	; 7
 {
 	//PORTC_set_pin_level(1, level);
 	if (level) {
 		PORTC |= (1 << PORTC1);
 	} else {
 		PORTC &= ~(1 << PORTC1);
- 102:	88 b1       	in	r24, 0x08	; 8
- 104:	8d 7f       	andi	r24, 0xFD	; 253
- 106:	88 b9       	out	0x08, r24	; 8
+  96:	88 b1       	in	r24, 0x08	; 8
+  98:	8d 7f       	andi	r24, 0xFD	; 253
+  9a:	88 b9       	out	0x08, r24	; 8
  */
 static inline void ROW1_set_dir(const enum port_dir dir)
 {
 	//PORTC_set_pin_dir(5, dir);
 	if (dir == PORT_DIR_OUT) {
 		DDRC |= (1 << PORTC5);
- 108:	87 b1       	in	r24, 0x07	; 7
- 10a:	80 62       	ori	r24, 0x20	; 32
- 10c:	87 b9       	out	0x07, r24	; 7
+  9c:	87 b1       	in	r24, 0x07	; 7
+  9e:	80 62       	ori	r24, 0x20	; 32
+  a0:	87 b9       	out	0x07, r24	; 7
 {
 	//PORTC_set_pin_level(5, level);
 	if (level) {
 		PORTC |= (1 << PORTC5);
 	} else {
 		PORTC &= ~(1 << PORTC5);
- 10e:	88 b1       	in	r24, 0x08	; 8
- 110:	8f 7d       	andi	r24, 0xDF	; 223
- 112:	88 b9       	out	0x08, r24	; 8
+  a2:	88 b1       	in	r24, 0x08	; 8
+  a4:	8f 7d       	andi	r24, 0xDF	; 223
+  a6:	88 b9       	out	0x08, r24	; 8
  */
 static inline void ROW2_set_dir(const enum port_dir dir)
 {
 	//PORTC_set_pin_dir(4, dir);
 	if (dir == PORT_DIR_OUT) {
 		DDRC |= (1 << PORTC4);
- 114:	87 b1       	in	r24, 0x07	; 7
- 116:	80 61       	ori	r24, 0x10	; 16
- 118:	87 b9       	out	0x07, r24	; 7
+  a8:	87 b1       	in	r24, 0x07	; 7
+  aa:	80 61       	ori	r24, 0x10	; 16
+  ac:	87 b9       	out	0x07, r24	; 7
 {
 	//PORTC_set_pin_level(4, level);
 	if (level) {
 		PORTC |= (1 << PORTC4);
 	} else {
 		PORTC &= ~(1 << PORTC4);
- 11a:	88 b1       	in	r24, 0x08	; 8
- 11c:	8f 7e       	andi	r24, 0xEF	; 239
- 11e:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(2, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC2);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC2);
- 120:	87 b1       	in	r24, 0x07	; 7
- 122:	8b 7f       	andi	r24, 0xFB	; 251
- 124:	87 b9       	out	0x07, r24	; 7
- */
-static inline void COLUMN0_set_level(const uint8_t level)
-{
-	//PORTC_set_pin_level(2, level);
-	if (level) {
-		PORTC |= (1 << PORTC2);
- 126:	88 b1       	in	r24, 0x08	; 8
- 128:	84 60       	ori	r24, 0x04	; 4
- 12a:	88 b9       	out	0x08, r24	; 8
+  ae:	88 b1       	in	r24, 0x08	; 8
+  b0:	8f 7e       	andi	r24, 0xEF	; 239
+  b2:	88 b9       	out	0x08, r24	; 8
 {
 	//PORTC_set_pin_dir(0, dir);
 	if (dir == PORT_DIR_OUT) {
 		DDRC |= (1 << PORTC0);
 	} else if (dir == PORT_DIR_IN) {
 		DDRC &= ~(1 << PORTC0);
- 12c:	87 b1       	in	r24, 0x07	; 7
- 12e:	8e 7f       	andi	r24, 0xFE	; 254
- 130:	87 b9       	out	0x07, r24	; 7
+  b4:	87 b1       	in	r24, 0x07	; 7
+  b6:	8e 7f       	andi	r24, 0xFE	; 254
+  b8:	87 b9       	out	0x07, r24	; 7
  */
 static inline void COLUMN1_set_level(const uint8_t level)
 {
 	//PORTC_set_pin_level(0, level);
 	if (level) {
 		PORTC |= (1 << PORTC0);
- 132:	88 b1       	in	r24, 0x08	; 8
- 134:	81 60       	ori	r24, 0x01	; 1
- 136:	88 b9       	out	0x08, r24	; 8
+  ba:	88 b1       	in	r24, 0x08	; 8
+  bc:	81 60       	ori	r24, 0x01	; 1
+  be:	88 b9       	out	0x08, r24	; 8
 {
-	//PORTC_set_pin_dir(3, dir);
+	//PORTC_set_pin_dir(2, dir);
 	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC3);
+		DDRC |= (1 << PORTC2);
 	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC3);
- 138:	87 b1       	in	r24, 0x07	; 7
- 13a:	87 7f       	andi	r24, 0xF7	; 247
- 13c:	87 b9       	out	0x07, r24	; 7
+		DDRC &= ~(1 << PORTC2);
+  c0:	87 b1       	in	r24, 0x07	; 7
+  c2:	8b 7f       	andi	r24, 0xFB	; 251
+  c4:	87 b9       	out	0x07, r24	; 7
  */
-static inline void COLUMN2_set_level(const uint8_t level)
+static inline void COLUMN0_set_level(const uint8_t level)
 {
-	//PORTC_set_pin_level(3, level);
+	//PORTC_set_pin_level(2, level);
 	if (level) {
-		PORTC |= (1 << PORTC3);
- 13e:	88 b1       	in	r24, 0x08	; 8
- 140:	88 60       	ori	r24, 0x08	; 8
- 142:	88 b9       	out	0x08, r24	; 8
- 144:	08 95       	ret
-
-00000146 <row_input_column_output>:
-{
-	//PORTC_set_pin_dir(1, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC1);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC1);
- 146:	87 b1       	in	r24, 0x07	; 7
- 148:	8d 7f       	andi	r24, 0xFD	; 253
- 14a:	87 b9       	out	0x07, r24	; 7
- */
-static inline void ROW0_set_level(const uint8_t level)
+		PORTC |= (1 << PORTC2);
+  c6:	88 b1       	in	r24, 0x08	; 8
+  c8:	84 60       	ori	r24, 0x04	; 4
+  ca:	88 b9       	out	0x08, r24	; 8
 {
 	//PORTC_set_pin_level(1, level);
 	if (level) {
 		PORTC |= (1 << PORTC1);
- 14c:	88 b1       	in	r24, 0x08	; 8
- 14e:	82 60       	ori	r24, 0x02	; 2
- 150:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(5, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC5);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC5);
- 152:	87 b1       	in	r24, 0x07	; 7
- 154:	8f 7d       	andi	r24, 0xDF	; 223
- 156:	87 b9       	out	0x07, r24	; 7
+	} else {
+		PORTC &= ~(1 << PORTC1);
+  cc:	88 b1       	in	r24, 0x08	; 8
+  ce:	8d 7f       	andi	r24, 0xFD	; 253
+  d0:	88 b9       	out	0x08, r24	; 8
  */
 static inline void ROW1_set_level(const uint8_t level)
 {
 	//PORTC_set_pin_level(5, level);
 	if (level) {
 		PORTC |= (1 << PORTC5);
- 158:	88 b1       	in	r24, 0x08	; 8
- 15a:	80 62       	ori	r24, 0x20	; 32
- 15c:	88 b9       	out	0x08, r24	; 8
-{
-	//PORTC_set_pin_dir(4, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC4);
-	} else if (dir == PORT_DIR_IN) {
-		DDRC &= ~(1 << PORTC4);
- 15e:	87 b1       	in	r24, 0x07	; 7
- 160:	8f 7e       	andi	r24, 0xEF	; 239
- 162:	87 b9       	out	0x07, r24	; 7
+  d2:	88 b1       	in	r24, 0x08	; 8
+  d4:	80 62       	ori	r24, 0x20	; 32
+  d6:	88 b9       	out	0x08, r24	; 8
  */
 static inline void ROW2_set_level(const uint8_t level)
 {
 	//PORTC_set_pin_level(4, level);
 	if (level) {
 		PORTC |= (1 << PORTC4);
- 164:	88 b1       	in	r24, 0x08	; 8
- 166:	80 61       	ori	r24, 0x10	; 16
- 168:	88 b9       	out	0x08, r24	; 8
- */
-static inline void COLUMN0_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(2, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC2);
- 16a:	87 b1       	in	r24, 0x07	; 7
- 16c:	84 60       	ori	r24, 0x04	; 4
- 16e:	87 b9       	out	0x07, r24	; 7
-{
-	//PORTC_set_pin_level(2, level);
-	if (level) {
-		PORTC |= (1 << PORTC2);
-	} else {
-		PORTC &= ~(1 << PORTC2);
- 170:	88 b1       	in	r24, 0x08	; 8
- 172:	8b 7f       	andi	r24, 0xFB	; 251
- 174:	88 b9       	out	0x08, r24	; 8
- */
-static inline void COLUMN1_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(0, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC0);
- 176:	87 b1       	in	r24, 0x07	; 7
- 178:	81 60       	ori	r24, 0x01	; 1
- 17a:	87 b9       	out	0x07, r24	; 7
-{
-	//PORTC_set_pin_level(2, level);
-	if (level) {
-		PORTC |= (1 << PORTC2);
-	} else {
-		PORTC &= ~(1 << PORTC2);
- 17c:	88 b1       	in	r24, 0x08	; 8
- 17e:	8b 7f       	andi	r24, 0xFB	; 251
- 180:	88 b9       	out	0x08, r24	; 8
- */
-static inline void COLUMN2_set_dir(const enum port_dir dir)
-{
-	//PORTC_set_pin_dir(3, dir);
-	if (dir == PORT_DIR_OUT) {
-		DDRC |= (1 << PORTC3);
- 182:	87 b1       	in	r24, 0x07	; 7
- 184:	88 60       	ori	r24, 0x08	; 8
- 186:	87 b9       	out	0x07, r24	; 7
-{
-	//PORTC_set_pin_level(2, level);
-	if (level) {
-		PORTC |= (1 << PORTC2);
-	} else {
-		PORTC &= ~(1 << PORTC2);
- 188:	88 b1       	in	r24, 0x08	; 8
- 18a:	8b 7f       	andi	r24, 0xFB	; 251
- 18c:	88 b9       	out	0x08, r24	; 8
- 18e:	08 95       	ret
-
-00000190 <scan_keys>:
-	COLUMN0_set_level(0);
-}
-
-void scan_keys()
-{
-	key_pressed = 0;
- 190:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN0_get_level()
-{
-	//return PORTC_get_pin_level(2);
-	if (PINC & (1 << PINC2)) {
- 194:	86 b1       	in	r24, 0x06	; 6
- 196:	98 2f       	mov	r25, r24
- 198:	94 70       	andi	r25, 0x04	; 4
- 19a:	82 fd       	sbrc	r24, 2
-		return 0x01;
- 19c:	91 e0       	ldi	r25, 0x01	; 1
-
-	if (!COLUMN0_get_level()) {
- 19e:	91 11       	cpse	r25, r1
- 1a0:	04 c0       	rjmp	.+8      	; 0x1aa <scan_keys+0x1a>
-		key_pressed = 1;
- 1a2:	81 e0       	ldi	r24, 0x01	; 1
- 1a4:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1a8:	15 c0       	rjmp	.+42     	; 0x1d4 <scan_keys+0x44>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN1_get_level()
-{
-	//return PORTC_get_pin_level(0);
-	if (PINC & (1 << PINC0)) {
- 1aa:	86 b1       	in	r24, 0x06	; 6
- 1ac:	98 2f       	mov	r25, r24
- 1ae:	91 70       	andi	r25, 0x01	; 1
- 1b0:	80 fd       	sbrc	r24, 0
-		return 0x01;
- 1b2:	91 e0       	ldi	r25, 0x01	; 1
-		} else if (!COLUMN1_get_level()) {
- 1b4:	91 11       	cpse	r25, r1
- 1b6:	04 c0       	rjmp	.+8      	; 0x1c0 <scan_keys+0x30>
-		key_pressed = 2;
- 1b8:	82 e0       	ldi	r24, 0x02	; 2
- 1ba:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1be:	0a c0       	rjmp	.+20     	; 0x1d4 <scan_keys+0x44>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN2_get_level()
-{
-	//return PORTC_get_pin_level(3);
-	if (PINC & (1 << PINC3)) {
- 1c0:	86 b1       	in	r24, 0x06	; 6
- 1c2:	98 2f       	mov	r25, r24
- 1c4:	98 70       	andi	r25, 0x08	; 8
- 1c6:	83 fd       	sbrc	r24, 3
-		return 0x01;
- 1c8:	91 e0       	ldi	r25, 0x01	; 1
-		} else if (!COLUMN2_get_level()) {
- 1ca:	91 11       	cpse	r25, r1
- 1cc:	03 c0       	rjmp	.+6      	; 0x1d4 <scan_keys+0x44>
-		key_pressed = 3;
- 1ce:	83 e0       	ldi	r24, 0x03	; 3
- 1d0:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
-	}
-
-	row_input_column_output();
- 1d4:	b8 df       	rcall	.-144    	; 0x146 <row_input_column_output>
- * Reads the level on a pin
- */
-static inline uint8_t ROW0_get_level()
-{
-	//return PORTC_get_pin_level(1);
-	if (PINC & (1 << PINC1)) {
- 1d6:	86 b1       	in	r24, 0x06	; 6
- 1d8:	98 2f       	mov	r25, r24
- 1da:	92 70       	andi	r25, 0x02	; 2
- 1dc:	81 fd       	sbrc	r24, 1
-		return 0x01;
- 1de:	91 e0       	ldi	r25, 0x01	; 1
-
-	if (!ROW0_get_level()) {
- 1e0:	99 23       	and	r25, r25
- 1e2:	e1 f0       	breq	.+56     	; 0x21c <scan_keys+0x8c>
- * Reads the level on a pin
- */
-static inline uint8_t ROW1_get_level()
-{
-	//return PORTC_get_pin_level(5);
-	if (PINC & (1 << PINC5)) {
- 1e4:	86 b1       	in	r24, 0x06	; 6
- 1e6:	98 2f       	mov	r25, r24
- 1e8:	90 72       	andi	r25, 0x20	; 32
- 1ea:	85 fd       	sbrc	r24, 5
-		return 0x01;
- 1ec:	91 e0       	ldi	r25, 0x01	; 1
-		key_pressed += 0;
-		} else if (!ROW1_get_level()) {
- 1ee:	91 11       	cpse	r25, r1
- 1f0:	06 c0       	rjmp	.+12     	; 0x1fe <scan_keys+0x6e>
-		key_pressed += 3;
- 1f2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1f6:	8d 5f       	subi	r24, 0xFD	; 253
- 1f8:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1fc:	0f c0       	rjmp	.+30     	; 0x21c <scan_keys+0x8c>
- * Reads the level on a pin
- */
-static inline uint8_t ROW2_get_level()
-{
-	//return PORTC_get_pin_level(4);
-	if (PINC & (1 << PINC4)) {
- 1fe:	86 b1       	in	r24, 0x06	; 6
- 200:	98 2f       	mov	r25, r24
- 202:	90 71       	andi	r25, 0x10	; 16
- 204:	84 fd       	sbrc	r24, 4
-		return 0x01;
- 206:	91 e0       	ldi	r25, 0x01	; 1
-		} else if (!ROW2_get_level()) {
- 208:	91 11       	cpse	r25, r1
- 20a:	06 c0       	rjmp	.+12     	; 0x218 <scan_keys+0x88>
-		key_pressed += 6;
- 20c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 210:	8a 5f       	subi	r24, 0xFA	; 250
- 212:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 216:	02 c0       	rjmp	.+4      	; 0x21c <scan_keys+0x8c>
-		} else {
-		key_pressed = 0;	
- 218:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	}
-
-	row_output_column_input();
- 21c:	6f cf       	rjmp	.-290    	; 0xfc <row_output_column_input>
- 21e:	08 95       	ret
-
-00000220 <btn_debounce>:
-}
-
-void btn_debounce()
-{
-	/* GPIOR0 bit 0 (PRESS_VALID) is press validation flag */
-	GPIOR0 |= PRESS_VALID;
- 220:	8e b3       	in	r24, 0x1e	; 30
- 222:	81 60       	ori	r24, 0x01	; 1
- 224:	8e bb       	out	0x1e, r24	; 30
-	PORTB &= ~(1 << PORTC4);
- 226:	85 b1       	in	r24, 0x05	; 5
- 228:	8f 7e       	andi	r24, 0xEF	; 239
- 22a:	85 b9       	out	0x05, r24	; 5
-	
-	for (uint8_t i = 0; i < 10; i++) {
- 22c:	80 e0       	ldi	r24, 0x00	; 0
- 22e:	23 c0       	rjmp	.+70     	; 0x276 <btn_debounce+0x56>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN0_get_level()
-{
-	//return PORTC_get_pin_level(2);
-	if (PINC & (1 << PINC2)) {
- 230:	96 b1       	in	r25, 0x06	; 6
- 232:	29 2f       	mov	r18, r25
- 234:	24 70       	andi	r18, 0x04	; 4
- 236:	92 fd       	sbrc	r25, 2
-		return 0x01;
- 238:	21 e0       	ldi	r18, 0x01	; 1
-		/* If no button is pressed */
-		if (COLUMN0_get_level() == 1 && COLUMN1_get_level() == 1 && COLUMN2_get_level() == 1 ) {
- 23a:	21 30       	cpi	r18, 0x01	; 1
- 23c:	a9 f4       	brne	.+42     	; 0x268 <btn_debounce+0x48>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN1_get_level()
-{
-	//return PORTC_get_pin_level(0);
-	if (PINC & (1 << PINC0)) {
- 23e:	96 b1       	in	r25, 0x06	; 6
- 240:	39 2f       	mov	r19, r25
- 242:	31 70       	andi	r19, 0x01	; 1
- 244:	90 fd       	sbrc	r25, 0
-		return 0x01;
- 246:	32 2f       	mov	r19, r18
- 248:	31 30       	cpi	r19, 0x01	; 1
- 24a:	71 f4       	brne	.+28     	; 0x268 <btn_debounce+0x48>
- * Reads the level on a pin
- */
-static inline uint8_t COLUMN2_get_level()
-{
-	//return PORTC_get_pin_level(3);
-	if (PINC & (1 << PINC3)) {
- 24c:	96 b1       	in	r25, 0x06	; 6
- 24e:	29 2f       	mov	r18, r25
- 250:	28 70       	andi	r18, 0x08	; 8
- 252:	93 fd       	sbrc	r25, 3
-		return 0x01;
- 254:	23 2f       	mov	r18, r19
- 256:	21 30       	cpi	r18, 0x01	; 1
- 258:	39 f4       	brne	.+14     	; 0x268 <btn_debounce+0x48>
-			//three high levels mean no button is being pressed
-			GPIOR0 &= ~PRESS_VALID;
- 25a:	8e b3       	in	r24, 0x1e	; 30
- 25c:	8e 7f       	andi	r24, 0xFE	; 254
- 25e:	8e bb       	out	0x1e, r24	; 30
-			PORTB |= (1 << PORTC4);
- 260:	85 b1       	in	r24, 0x05	; 5
- 262:	80 61       	ori	r24, 0x10	; 16
- 264:	85 b9       	out	0x05, r24	; 5
-			break;
- 266:	08 95       	ret
+  d8:	88 b1       	in	r24, 0x08	; 8
+  da:	80 61       	ori	r24, 0x10	; 16
+  dc:	88 b9       	out	0x08, r24	; 8
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 268:	ef e3       	ldi	r30, 0x3F	; 63
- 26a:	ff e1       	ldi	r31, 0x1F	; 31
- 26c:	31 97       	sbiw	r30, 0x01	; 1
- 26e:	f1 f7       	brne	.-4      	; 0x26c <btn_debounce+0x4c>
- 270:	00 c0       	rjmp	.+0      	; 0x272 <btn_debounce+0x52>
- 272:	00 00       	nop
+  de:	8f e9       	ldi	r24, 0x9F	; 159
+  e0:	9f e0       	ldi	r25, 0x0F	; 15
+  e2:	01 97       	sbiw	r24, 0x01	; 1
+  e4:	f1 f7       	brne	.-4      	; 0xe2 <main+0x58>
+  e6:	00 c0       	rjmp	.+0      	; 0xe8 <main+0x5e>
+  e8:	00 00       	nop
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN0_get_level()
 {
-	/* GPIOR0 bit 0 (PRESS_VALID) is press validation flag */
-	GPIOR0 |= PRESS_VALID;
-	PORTB &= ~(1 << PORTC4);
-	
-	for (uint8_t i = 0; i < 10; i++) {
- 274:	8f 5f       	subi	r24, 0xFF	; 255
- 276:	8a 30       	cpi	r24, 0x0A	; 10
- 278:	d8 f2       	brcs	.-74     	; 0x230 <btn_debounce+0x10>
- 27a:	08 95       	ret
-
-0000027c <twinkle>:
-		_delay_ms(2);
-	}
-}
-
- void twinkle(uint8_t number) {
-	 for (uint8_t i = 0; i< number; i++)
- 27c:	30 e0       	ldi	r19, 0x00	; 0
- 27e:	1a c0       	rjmp	.+52     	; 0x2b4 <twinkle+0x38>
-	 {
-		 PORTB ^= 0b00100000; //(1 << PORTB5);
- 280:	25 b1       	in	r18, 0x05	; 5
- 282:	90 e2       	ldi	r25, 0x20	; 32
- 284:	29 27       	eor	r18, r25
- 286:	25 b9       	out	0x05, r18	; 5
- 288:	2f ef       	ldi	r18, 0xFF	; 255
- 28a:	49 e6       	ldi	r20, 0x69	; 105
- 28c:	58 e1       	ldi	r21, 0x18	; 24
- 28e:	21 50       	subi	r18, 0x01	; 1
- 290:	40 40       	sbci	r20, 0x00	; 0
- 292:	50 40       	sbci	r21, 0x00	; 0
- 294:	e1 f7       	brne	.-8      	; 0x28e <twinkle+0x12>
- 296:	00 c0       	rjmp	.+0      	; 0x298 <twinkle+0x1c>
- 298:	00 00       	nop
-		 _delay_ms(500);
-		 PORTB ^= 0b00100000; //(1 << PORTB5);
- 29a:	25 b1       	in	r18, 0x05	; 5
- 29c:	92 27       	eor	r25, r18
- 29e:	95 b9       	out	0x05, r25	; 5
- 2a0:	9f ef       	ldi	r25, 0xFF	; 255
- 2a2:	29 e6       	ldi	r18, 0x69	; 105
- 2a4:	48 e1       	ldi	r20, 0x18	; 24
- 2a6:	91 50       	subi	r25, 0x01	; 1
- 2a8:	20 40       	sbci	r18, 0x00	; 0
- 2aa:	40 40       	sbci	r20, 0x00	; 0
- 2ac:	e1 f7       	brne	.-8      	; 0x2a6 <twinkle+0x2a>
- 2ae:	00 c0       	rjmp	.+0      	; 0x2b0 <twinkle+0x34>
- 2b0:	00 00       	nop
-		_delay_ms(2);
-	}
-}
-
- void twinkle(uint8_t number) {
-	 for (uint8_t i = 0; i< number; i++)
- 2b2:	3f 5f       	subi	r19, 0xFF	; 255
- 2b4:	38 17       	cp	r19, r24
- 2b6:	20 f3       	brcs	.-56     	; 0x280 <twinkle+0x4>
-		 PORTB ^= 0b00100000; //(1 << PORTB5);
-		 _delay_ms(500);
-		 PORTB ^= 0b00100000; //(1 << PORTB5);
-		 _delay_ms(500);
-	 }
- }
- 2b8:	08 95       	ret
-
-000002ba <main>:
-int main(void)
-{
-	
-	
-	/* Initializes MCU, drivers and middleware */
-	atmel_start_init();
- 2ba:	e7 de       	rcall	.-562    	; 0x8a <atmel_start_init>
-	DDRB |= 0b00111100; //(1 << PORTB5);
- 2bc:	84 b1       	in	r24, 0x04	; 4
- 2be:	8c 63       	ori	r24, 0x3C	; 60
+	//return PORTC_get_pin_level(2);
+	if (PINC & (1 << PINC2)) {
+  ea:	86 b1       	in	r24, 0x06	; 6
+  ec:	98 2f       	mov	r25, r24
+  ee:	94 70       	andi	r25, 0x04	; 4
+  f0:	82 fd       	sbrc	r24, 2
+		return 1;
+  f2:	91 e0       	ldi	r25, 0x01	; 1
 	while (1) {
-		/* Sleep until key press wakes up the CPU */
-		//sleep_mode();
-		/* PRESS_VALID flag in GPIOR0 is high if a valid press is detected */
-		
-		btn_debounce();
- 2c0:	84 b9       	out	0x04, r24	; 4
- 2c2:	ae df       	rcall	.-164    	; 0x220 <btn_debounce>
- 2c4:	2f ef       	ldi	r18, 0xFF	; 255
- 2c6:	89 ef       	ldi	r24, 0xF9	; 249
- 2c8:	90 e0       	ldi	r25, 0x00	; 0
- 2ca:	21 50       	subi	r18, 0x01	; 1
- 2cc:	80 40       	sbci	r24, 0x00	; 0
- 2ce:	90 40       	sbci	r25, 0x00	; 0
- 2d0:	e1 f7       	brne	.-8      	; 0x2ca <main+0x10>
- 2d2:	00 c0       	rjmp	.+0      	; 0x2d4 <main+0x1a>
- 2d4:	00 00       	nop
-		_delay_ms(20);
+		ROW0_set_level(0);
+		ROW1_set_level(1);
+		ROW2_set_level(1);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00010000; //on //port 12
+  f4:	91 11       	cpse	r25, r1
+  f6:	04 c0       	rjmp	.+8      	; 0x100 <main+0x76>
+  f8:	85 b1       	in	r24, 0x05	; 5
+  fa:	80 61       	ori	r24, 0x10	; 16
+  fc:	85 b9       	out	0x05, r24	; 5
+  fe:	19 c0       	rjmp	.+50     	; 0x132 <main+0xa8>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN1_get_level()
+{
+	//return PORTC_get_pin_level(0);
+	if (PINC & (1 << PINC0)) {
+ 100:	86 b1       	in	r24, 0x06	; 6
+ 102:	98 2f       	mov	r25, r24
+ 104:	91 70       	andi	r25, 0x01	; 1
+ 106:	80 fd       	sbrc	r24, 0
+		return 1;
+ 108:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11101111; //off
+ 10a:	91 11       	cpse	r25, r1
+ 10c:	04 c0       	rjmp	.+8      	; 0x116 <main+0x8c>
+ 10e:	85 b1       	in	r24, 0x05	; 5
+ 110:	8f 7e       	andi	r24, 0xEF	; 239
+ 112:	85 b9       	out	0x05, r24	; 5
+ 114:	0e c0       	rjmp	.+28     	; 0x132 <main+0xa8>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN2_get_level()
+{
+	//return PORTC_get_pin_level(3);
+	if (PINC & (1 << PINC3)) {
+ 116:	86 b1       	in	r24, 0x06	; 6
+ 118:	98 2f       	mov	r25, r24
+ 11a:	98 70       	andi	r25, 0x08	; 8
+ 11c:	83 fd       	sbrc	r24, 3
+		return 1;
+ 11e:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00010000; //on
+ 120:	91 11       	cpse	r25, r1
+ 122:	04 c0       	rjmp	.+8      	; 0x12c <main+0xa2>
+ 124:	85 b1       	in	r24, 0x05	; 5
+ 126:	80 61       	ori	r24, 0x10	; 16
+ 128:	85 b9       	out	0x05, r24	; 5
+ 12a:	03 c0       	rjmp	.+6      	; 0x132 <main+0xa8>
+		else PORTB &= 0b11101111; //off
+ 12c:	85 b1       	in	r24, 0x05	; 5
+ 12e:	8f 7e       	andi	r24, 0xEF	; 239
+ 130:	85 b9       	out	0x05, r24	; 5
+ */
+static inline void ROW0_set_level(const uint8_t level)
+{
+	//PORTC_set_pin_level(1, level);
+	if (level) {
+		PORTC |= (1 << PORTC1);
+ 132:	88 b1       	in	r24, 0x08	; 8
+ 134:	82 60       	ori	r24, 0x02	; 2
+ 136:	88 b9       	out	0x08, r24	; 8
+{
+	//PORTC_set_pin_level(5, level);
+	if (level) {
+		PORTC |= (1 << PORTC5);
+	} else {
+		PORTC &= ~(1 << PORTC5);
+ 138:	88 b1       	in	r24, 0x08	; 8
+ 13a:	8f 7d       	andi	r24, 0xDF	; 223
+ 13c:	88 b9       	out	0x08, r24	; 8
+ */
+static inline void ROW2_set_level(const uint8_t level)
+{
+	//PORTC_set_pin_level(4, level);
+	if (level) {
+		PORTC |= (1 << PORTC4);
+ 13e:	88 b1       	in	r24, 0x08	; 8
+ 140:	80 61       	ori	r24, 0x10	; 16
+ 142:	88 b9       	out	0x08, r24	; 8
+ 144:	8f e9       	ldi	r24, 0x9F	; 159
+ 146:	9f e0       	ldi	r25, 0x0F	; 15
+ 148:	01 97       	sbiw	r24, 0x01	; 1
+ 14a:	f1 f7       	brne	.-4      	; 0x148 <main+0xbe>
+ 14c:	00 c0       	rjmp	.+0      	; 0x14e <main+0xc4>
+ 14e:	00 00       	nop
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN0_get_level()
+{
+	//return PORTC_get_pin_level(2);
+	if (PINC & (1 << PINC2)) {
+ 150:	86 b1       	in	r24, 0x06	; 6
+ 152:	98 2f       	mov	r25, r24
+ 154:	94 70       	andi	r25, 0x04	; 4
+ 156:	82 fd       	sbrc	r24, 2
+		return 1;
+ 158:	91 e0       	ldi	r25, 0x01	; 1
+		//_delay_ms(200);
+		ROW0_set_level(1);
+		ROW1_set_level(0);
+		ROW2_set_level(1);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00100000; //on //port 13
+ 15a:	91 11       	cpse	r25, r1
+ 15c:	04 c0       	rjmp	.+8      	; 0x166 <main+0xdc>
+ 15e:	85 b1       	in	r24, 0x05	; 5
+ 160:	80 62       	ori	r24, 0x20	; 32
+ 162:	85 b9       	out	0x05, r24	; 5
+ 164:	19 c0       	rjmp	.+50     	; 0x198 <main+0x10e>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN1_get_level()
+{
+	//return PORTC_get_pin_level(0);
+	if (PINC & (1 << PINC0)) {
+ 166:	86 b1       	in	r24, 0x06	; 6
+ 168:	98 2f       	mov	r25, r24
+ 16a:	91 70       	andi	r25, 0x01	; 1
+ 16c:	80 fd       	sbrc	r24, 0
+		return 1;
+ 16e:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11011111; //off
+ 170:	91 11       	cpse	r25, r1
+ 172:	04 c0       	rjmp	.+8      	; 0x17c <main+0xf2>
+ 174:	85 b1       	in	r24, 0x05	; 5
+ 176:	8f 7d       	andi	r24, 0xDF	; 223
+ 178:	85 b9       	out	0x05, r24	; 5
+ 17a:	0e c0       	rjmp	.+28     	; 0x198 <main+0x10e>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN2_get_level()
+{
+	//return PORTC_get_pin_level(3);
+	if (PINC & (1 << PINC3)) {
+ 17c:	86 b1       	in	r24, 0x06	; 6
+ 17e:	98 2f       	mov	r25, r24
+ 180:	98 70       	andi	r25, 0x08	; 8
+ 182:	83 fd       	sbrc	r24, 3
+		return 1;
+ 184:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00100000; //on
+ 186:	91 11       	cpse	r25, r1
+ 188:	04 c0       	rjmp	.+8      	; 0x192 <main+0x108>
+ 18a:	85 b1       	in	r24, 0x05	; 5
+ 18c:	80 62       	ori	r24, 0x20	; 32
+ 18e:	85 b9       	out	0x05, r24	; 5
+ 190:	03 c0       	rjmp	.+6      	; 0x198 <main+0x10e>
+		else PORTB &= 0b11011111; //off
+ 192:	85 b1       	in	r24, 0x05	; 5
+ 194:	8f 7d       	andi	r24, 0xDF	; 223
+ 196:	85 b9       	out	0x05, r24	; 5
+ 198:	9f ef       	ldi	r25, 0xFF	; 255
+ 19a:	23 ec       	ldi	r18, 0xC3	; 195
+ 19c:	89 e0       	ldi	r24, 0x09	; 9
+ 19e:	91 50       	subi	r25, 0x01	; 1
+ 1a0:	20 40       	sbci	r18, 0x00	; 0
+ 1a2:	80 40       	sbci	r24, 0x00	; 0
+ 1a4:	e1 f7       	brne	.-8      	; 0x19e <main+0x114>
+ 1a6:	00 c0       	rjmp	.+0      	; 0x1a8 <main+0x11e>
+ 1a8:	00 00       	nop
+ */
+static inline void ROW0_set_level(const uint8_t level)
+{
+	//PORTC_set_pin_level(1, level);
+	if (level) {
+		PORTC |= (1 << PORTC1);
+ 1aa:	88 b1       	in	r24, 0x08	; 8
+ 1ac:	82 60       	ori	r24, 0x02	; 2
+ 1ae:	88 b9       	out	0x08, r24	; 8
+ */
+static inline void ROW1_set_level(const uint8_t level)
+{
+	//PORTC_set_pin_level(5, level);
+	if (level) {
+		PORTC |= (1 << PORTC5);
+ 1b0:	88 b1       	in	r24, 0x08	; 8
+ 1b2:	80 62       	ori	r24, 0x20	; 32
+ 1b4:	88 b9       	out	0x08, r24	; 8
+{
+	//PORTC_set_pin_level(4, level);
+	if (level) {
+		PORTC |= (1 << PORTC4);
+	} else {
+		PORTC &= ~(1 << PORTC4);
+ 1b6:	88 b1       	in	r24, 0x08	; 8
+ 1b8:	8f 7e       	andi	r24, 0xEF	; 239
+ 1ba:	88 b9       	out	0x08, r24	; 8
+ 1bc:	8f e9       	ldi	r24, 0x9F	; 159
+ 1be:	9f e0       	ldi	r25, 0x0F	; 15
+ 1c0:	01 97       	sbiw	r24, 0x01	; 1
+ 1c2:	f1 f7       	brne	.-4      	; 0x1c0 <main+0x136>
+ 1c4:	00 c0       	rjmp	.+0      	; 0x1c6 <main+0x13c>
+ 1c6:	00 00       	nop
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN0_get_level()
+{
+	//return PORTC_get_pin_level(2);
+	if (PINC & (1 << PINC2)) {
+ 1c8:	86 b1       	in	r24, 0x06	; 6
+ 1ca:	98 2f       	mov	r25, r24
+ 1cc:	94 70       	andi	r25, 0x04	; 4
+ 1ce:	82 fd       	sbrc	r24, 2
+		return 1;
+ 1d0:	91 e0       	ldi	r25, 0x01	; 1
+		_delay_ms(200);
+		ROW0_set_level(1);
+		ROW1_set_level(1);
+		ROW2_set_level(0);
+		_delay_ms(1);
+		if(COLUMN0_get_level() == 0 )  PORTB |= 0b00001000; //on //port 11
+ 1d2:	91 11       	cpse	r25, r1
+ 1d4:	04 c0       	rjmp	.+8      	; 0x1de <main+0x154>
+ 1d6:	85 b1       	in	r24, 0x05	; 5
+ 1d8:	88 60       	ori	r24, 0x08	; 8
+ 1da:	85 b9       	out	0x05, r24	; 5
+ 1dc:	77 cf       	rjmp	.-274    	; 0xcc <main+0x42>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN1_get_level()
+{
+	//return PORTC_get_pin_level(0);
+	if (PINC & (1 << PINC0)) {
+ 1de:	86 b1       	in	r24, 0x06	; 6
+ 1e0:	98 2f       	mov	r25, r24
+ 1e2:	91 70       	andi	r25, 0x01	; 1
+ 1e4:	80 fd       	sbrc	r24, 0
+		return 1;
+ 1e6:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN1_get_level() == 0) PORTB &= 0b11110111; //off
+ 1e8:	91 11       	cpse	r25, r1
+ 1ea:	04 c0       	rjmp	.+8      	; 0x1f4 <main+0x16a>
+ 1ec:	85 b1       	in	r24, 0x05	; 5
+ 1ee:	87 7f       	andi	r24, 0xF7	; 247
+ 1f0:	85 b9       	out	0x05, r24	; 5
+ 1f2:	6c cf       	rjmp	.-296    	; 0xcc <main+0x42>
+ * Reads the level on a pin
+ */
+static inline uint8_t COLUMN2_get_level()
+{
+	//return PORTC_get_pin_level(3);
+	if (PINC & (1 << PINC3)) {
+ 1f4:	86 b1       	in	r24, 0x06	; 6
+ 1f6:	98 2f       	mov	r25, r24
+ 1f8:	98 70       	andi	r25, 0x08	; 8
+ 1fa:	83 fd       	sbrc	r24, 3
+		return 1;
+ 1fc:	91 e0       	ldi	r25, 0x01	; 1
+		else if(COLUMN2_get_level() == 0)  PORTB |= 0b00001000; //on
+ 1fe:	91 11       	cpse	r25, r1
+ 200:	04 c0       	rjmp	.+8      	; 0x20a <main+0x180>
+ 202:	85 b1       	in	r24, 0x05	; 5
+ 204:	88 60       	ori	r24, 0x08	; 8
+ 206:	85 b9       	out	0x05, r24	; 5
+ 208:	61 cf       	rjmp	.-318    	; 0xcc <main+0x42>
+		else PORTB &= 0b11110111; //off
+ 20a:	85 b1       	in	r24, 0x05	; 5
+ 20c:	87 7f       	andi	r24, 0xF7	; 247
+ 20e:	85 b9       	out	0x05, r24	; 5
+ 210:	5d cf       	rjmp	.-326    	; 0xcc <main+0x42>
 
-		/* If the key press was valid */
-		if ((GPIOR0 & PRESS_VALID) == PRESS_VALID) {
- 2d6:	f0 9b       	sbis	0x1e, 0	; 30
-			scan_keys();
- 2d8:	11 c0       	rjmp	.+34     	; 0x2fc <main+0x42>
-			twinkle(key_pressed);
- 2da:	5a df       	rcall	.-332    	; 0x190 <scan_keys>
- 2dc:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-			/* Wait for all buttons to be released */
-			while ((GPIOR0 & PRESS_VALID) == PRESS_VALID) { 
- 2e0:	cd df       	rcall	.-102    	; 0x27c <twinkle>
-				 
-				btn_debounce();
- 2e2:	0a c0       	rjmp	.+20     	; 0x2f8 <main+0x3e>
- 2e4:	9d df       	rcall	.-198    	; 0x220 <btn_debounce>
- 2e6:	2f ef       	ldi	r18, 0xFF	; 255
- 2e8:	89 ef       	ldi	r24, 0xF9	; 249
- 2ea:	90 e0       	ldi	r25, 0x00	; 0
- 2ec:	21 50       	subi	r18, 0x01	; 1
- 2ee:	80 40       	sbci	r24, 0x00	; 0
- 2f0:	90 40       	sbci	r25, 0x00	; 0
- 2f2:	e1 f7       	brne	.-8      	; 0x2ec <main+0x32>
- 2f4:	00 c0       	rjmp	.+0      	; 0x2f6 <main+0x3c>
-		/* If the key press was valid */
-		if ((GPIOR0 & PRESS_VALID) == PRESS_VALID) {
-			scan_keys();
-			twinkle(key_pressed);
-			/* Wait for all buttons to be released */
-			while ((GPIOR0 & PRESS_VALID) == PRESS_VALID) { 
- 2f6:	00 00       	nop
- 2f8:	f0 99       	sbic	0x1e, 0	; 30
-				btn_debounce();
-				_delay_ms(20);
-			}
-		}
-		//_delay_ms(20);
-		twinkle(1);
- 2fa:	f4 cf       	rjmp	.-24     	; 0x2e4 <main+0x2a>
- 2fc:	81 e0       	ldi	r24, 0x01	; 1
- 2fe:	be df       	rcall	.-132    	; 0x27c <twinkle>
-		PORTB &= ~(1 << PORTC4);
- 300:	85 b1       	in	r24, 0x05	; 5
- 302:	8f 7e       	andi	r24, 0xEF	; 239
- 304:	85 b9       	out	0x05, r24	; 5
- 306:	2f ef       	ldi	r18, 0xFF	; 255
- 308:	8b e7       	ldi	r24, 0x7B	; 123
- 30a:	92 e9       	ldi	r25, 0x92	; 146
- 30c:	21 50       	subi	r18, 0x01	; 1
- 30e:	80 40       	sbci	r24, 0x00	; 0
- 310:	90 40       	sbci	r25, 0x00	; 0
- 312:	e1 f7       	brne	.-8      	; 0x30c <main+0x52>
- 314:	00 c0       	rjmp	.+0      	; 0x316 <main+0x5c>
- 316:	00 00       	nop
- 318:	d4 cf       	rjmp	.-88     	; 0x2c2 <main+0x8>
+00000212 <_exit>:
+ 212:	f8 94       	cli
 
-0000031a <_exit>:
- 31a:	f8 94       	cli
-
-0000031c <__stop_program>:
- 31c:	ff cf       	rjmp	.-2      	; 0x31c <__stop_program>
+00000214 <__stop_program>:
+ 214:	ff cf       	rjmp	.-2      	; 0x214 <__stop_program>
