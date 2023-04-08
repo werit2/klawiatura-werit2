@@ -28,9 +28,7 @@ void twinkle(uint8_t number);
 int main(void)
 {
 	
-	int8_t no_key_pressed[3]; 
-	no_key_pressed[0] = no_key_pressed[1] = no_key_pressed[2] = 0;
-	 press = 0x00;
+	press = 0x00;
 	/* Initializes MCU, drivers and middleware */
 	//atmel_start_init();
 	DDRB |= 0b00111100; //(1 << PORTB5);
@@ -58,9 +56,6 @@ int main(void)
 	
 	while (1) {
 		key_pressed =0;
-		no_key_pressed[0] = 0;
-		no_key_pressed[1] = 0;
-		no_key_pressed[2] = 0;
 		ROW0_set_level(0);
 		ROW1_set_level(1);
 		ROW2_set_level(1);
@@ -68,7 +63,6 @@ int main(void)
 		if(COLUMN0_get_level() == 0 )  key_pressed = 1;
 		else if(COLUMN1_get_level() == 0)  key_pressed = 2;
 		else if(COLUMN2_get_level() == 0)  key_pressed = 3;
-		else no_key_pressed[0] = 1;
 		
 		ROW0_set_level(1);
 		ROW1_set_level(0);
@@ -77,7 +71,6 @@ int main(void)
 		if(COLUMN0_get_level() == 0 )  key_pressed = 4;
 		else if(COLUMN1_get_level() == 0) key_pressed = 5;
 		else if(COLUMN2_get_level() == 0)  key_pressed = 6;
-		else no_key_pressed[1] = 1;
 		
 		ROW0_set_level(1);
 		ROW1_set_level(1);
@@ -86,27 +79,16 @@ int main(void)
 		if(COLUMN0_get_level() == 0 )  key_pressed = 7;
 		else if(COLUMN1_get_level() == 0) key_pressed = 8;
 		else if(COLUMN2_get_level() == 0)  key_pressed = 9;
-		else no_key_pressed[2] = 1;
 		
-		if (no_key_pressed[0] == 1  && no_key_pressed[1] && no_key_pressed[2] ) //zawsze wykonuje ta petle -> dlaczego ten warunek jest zawsze prawdziwy?
+		ROW0_set_level(0);
+		ROW1_set_level(0);
+		ROW2_set_level(0);
+		_delay_ms(1);
+		btn_debounce();
+		if (press == PRESS_VALID)
 		{
-			PORTB |= 0b00100000;
-			continue;
-		} else {
-		
-		
-			ROW0_set_level(0);
-			ROW1_set_level(0);
-			ROW2_set_level(0);
-			_delay_ms(1);
-			btn_debounce();
-			if (press == PRESS_VALID)
-			{
-				twinkle(key_pressed);
-				//_delay_ms(500);
-			}
+			twinkle(key_pressed);
 		}
-		PORTB &= 0b11011111;
 		
 		
 	}
